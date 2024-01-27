@@ -94,7 +94,7 @@ def get_habit_info(habit_id):
     # Plot the data
     plt.figure(figsize=(12, 6))
     plt.bar(date_list, completion_status, color='black')
-    plt.title(f'Stato di Completamento dell\'Abitudine per ID {habit_id}')
+    plt.title(f'Habit status for ID: {habit_id}')
     plt.xlabel('Date')
     plt.ylabel('Checked (1) - Not Checked (0)')
     plt.xticks(rotation=45)

@@ -45,9 +45,9 @@ def main():
             habit_data = get_all_habit_by_user_id_and_habit_type_id(user_logged_in, None)
             if habit_data:
                 choices = [f"{habit_id}. {title}" for habit_id, title in habit_data]
-                selected = questionary.select("Which habit do you want to update?", choices=choices).ask()
+                selected = questionary.select("Which habit do you want to analyze?", choices=choices).ask()
                 habit_id = int(selected.split('.')[0])
-                print_habit_checked_dates(habit_id)
+                print_habit_checked_dates(habit_id) # For check purpose, it prints the checked dates of the habit, comment to disable
                 get_habit_info(habit_id)
             else:   
                 print("No habits found.")
