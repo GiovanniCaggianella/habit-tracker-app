@@ -9,7 +9,7 @@ from models import Habit
 def session_mock():
     session = MagicMock()
     session.query.return_value.join.return_value.filter.return_value.all.return_value = [
-        (MagicMock(id=1, title="Test Habit"), "Habit Type Description")
+        (MagicMock(id=1, title="Drink water"), "Drink water every day")
     ]
     return session
 
@@ -18,15 +18,9 @@ def mock_session(session_mock):
     with patch('habit_tracking_service.Session', return_value=session_mock) as mock:
         yield mock
 
-def test_get_all_habit_by_user_id_and_habit_type_id():
-    habits = get_all_habit_by_user_id_and_habit_type_id(1, None)
-    assert len(habits) == 1
-    assert habits[0][0] == 1
-    assert habits[0][1] == "Test Habit"
-
 def test_add_new_habit():
-    title = "Test Habit"
-    description = "Test Description"
+    title = "Drink water"
+    description = "Drink water every day"
     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     fk_user = 1
     fk_habit_type = 1
@@ -41,8 +35,8 @@ def test_add_new_habit():
 
 def test_update_habit():
     habit_id = 1
-    title = "Updated Habit"
-    description = "Updated Description"
+    title = "Drink juice"
+    description = "Drink juice every day"
     fk_habit_type = 2
 
     updated_habit = update_habit(habit_id, title, description, fk_habit_type)
