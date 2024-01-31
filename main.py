@@ -22,7 +22,7 @@ def main():
                 "Remove a habit",
                 "List of all habits",
                 "Mark a habit as done",
-                "Most long streak habit",
+                "Longest streak habit",
                 "Worst ever streak habit",
                 "Last month's worst habit",
                 "List of habits with the longest streak",
@@ -105,9 +105,9 @@ def main():
             else:
                 print("No unmarked habits found.")
 
-        elif action == "Most long streak habit":
+        elif action == "Longest streak habit":
             habit_longer = get_most_long_streak_habit()
-            print(f"The habit with the most long streak is: {habit_longer}")
+            print(f"The habit with the longest streak is: {habit_longer}")
 
         elif action == "Worst ever streak habit":
             habit_worst = get_worst_ever_streak_habit()
