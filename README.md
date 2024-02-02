@@ -2,6 +2,8 @@
 
 The Habit Tracker App is a Python-based application designed to help users track and manage their habits over time. It features a simple interface for tracking habits, types, and entries, alongside analytics to review progress.
 
+![Habit Tracker Interface](images/home.png "Habit Tracker App Interface")
+
 ## Installation and Running
 
 ### 1.1. Installation
@@ -58,3 +60,14 @@ To launch the application, you have two options:
 2. **Direct Execution:**
    - Navigate to the project directory using your file explorer.
    - Double-click on the `main.py` file to start the application.
+
+### 1.4. Unit Tests
+
+The application includes a suite of unit tests designed to ensure the functionality works as expected. Specifically, mock data for the habit "Drink Water" is provided within `session_mock` to facilitate these tests.
+To execute the unit tests, follow these steps:
+
+1. Open a command line interface (CLI) and navigate to the project directory.
+2. Run the tests by executing the following command:
+   ```bash
+   pytest
+   ```
