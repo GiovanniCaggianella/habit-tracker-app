@@ -61,7 +61,7 @@ To launch the application, you have two options:
    - Navigate to the project directory using your file explorer.
    - Double-click on the `main.py` file to start the application.
 
-## 1.4. Unit Tests
+### 1.4. Unit Tests
 
 The application includes a suite of unit tests designed to ensure the functionality works as expected. Specifically, mock data for the habit "Drink Water" is provided within `session_mock` to facilitate these tests.
 To execute the unit tests, follow these steps:
