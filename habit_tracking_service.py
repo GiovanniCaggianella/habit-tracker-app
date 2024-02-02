@@ -10,7 +10,15 @@ engine = create_engine('sqlite:///habits.db')
 Session = sessionmaker(bind=engine)
 
 def get_all_habit_by_user_id_and_habit_type_id(user_id, habit_type_id):
-    """ Get all habits by user id and habit type id """
+    """ Get all habits by user id and habit type id 
+    
+    Args:
+        user_id (int): The user id
+        habit_type_id (int): The habit type id
+    Returns:
+        list: A list of tuples containing the habit id and title
+
+    """
     session = Session()
     try:
         query = session.query(Habit, HabitType.description).join(HabitType)
@@ -29,7 +37,15 @@ def get_all_habit_by_user_id_and_habit_type_id(user_id, habit_type_id):
         session.close()
 
 def print_all_habits_by_user_id_and_habit_type_id(user_id, habit_type_id):
-    """ Print table of all habits by user id and habit type id """
+    """ Print table of all habits by user id and habit type id 
+    
+    Args:
+        user_id (int): The user id
+        habit_type_id (int): The habit type id
+    Returns:
+        PrettyTable: A table containing the habit information
+        
+    """
     session = Session()
     try:
         query = session.query(Habit, HabitType.description).join(HabitType)
@@ -53,7 +69,19 @@ def print_all_habits_by_user_id_and_habit_type_id(user_id, habit_type_id):
         session.close()
 
 def add_new_habit(title, description, created_at, fk_user, fk_habit_type):
-    """ Add a new habit to the database """
+    """ Add a new habit to the database 
+    
+    Args:
+        title (str): The title of the habit
+        description (str): The description of the habit
+        created_at (int): The timestamp when the habit was created
+        fk_user (int): The user id
+        fk_habit_type (int): The habit type id
+        
+    Returns:
+        Habit: The newly created habit
+    
+    """
     session = Session()
     try:
         new_habit = Habit(title=title, description=description, created_at=created_at, fk_user=fk_user, fk_habit_type=fk_habit_type)
@@ -68,6 +96,12 @@ def add_new_habit(title, description, created_at, fk_user, fk_habit_type):
         session.close()
 
 def get_habit_info(habit_id):
+    """ Get the habit information showing the habit tracking data in a plot
+    
+    Args:
+        habit_id (int): The habit id
+        
+    """
     session = Session()
     habit_trackings = session.query(HabitTracking).filter(HabitTracking.fk_habit == habit_id).order_by(HabitTracking.checked_at).all()
     session.close()
@@ -104,7 +138,12 @@ def get_habit_info(habit_id):
 
 
 def print_habit_checked_dates(habit_id):
-    """ (For check purpose of the plot) Print a table of all the days when the selected habit was checked """
+    """ (For check purpose of the plot) Print a table of all the days when the selected habit was checked 
+    
+    Args:
+        habit_id (int): The habit id
+
+    """
     session = Session()
     try:
         habit_trackings = session.query(HabitTracking).filter(HabitTracking.fk_habit == habit_id).order_by(HabitTracking.checked_at).all()
@@ -124,7 +163,18 @@ def print_habit_checked_dates(habit_id):
 
 
 def update_habit(habit_id, title=None, description=None, fk_habit_type=None):
-    """ Update a habit """
+    """ Update a habit 
+    
+    Args:
+        habit_id (int): The habit id
+        title (str): The title of the habit
+        description (str): The description of the habit
+        fk_habit_type (int): The habit type id
+        
+    Returns:
+        Habit: The updated habit
+        
+    """
     session = Session()
     try:
         habit = session.query(Habit).filter(Habit.id == habit_id).first()
@@ -145,7 +195,12 @@ def update_habit(habit_id, title=None, description=None, fk_habit_type=None):
         session.close()
 
 def remove_habit(habit_id):
-    """ Remove a habit """
+    """ Remove a habit 
+    
+    Args:
+        habit_id (int): The habit id
+        
+    """
     session = Session()
     try:
         habit = session.query(Habit).filter(Habit.id == habit_id).first()
@@ -159,7 +214,15 @@ def remove_habit(habit_id):
         session.close()
 
 def get_all_habit_by_user_id_and_unmarked(user_id):
-    """ Get all habits by user id and unmarked """
+    """ Get all habits by user id and unmarked 
+    
+    Args:
+        user_id (int): The user id
+        
+    Returns:
+        list: A list of unmarked habits
+        
+    """
     session = Session()
     try:
         today_start = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
@@ -186,7 +249,12 @@ def get_all_habit_by_user_id_and_unmarked(user_id):
 
 
 def mark_habit_as_done(habit_id):
-    """ Mark a habit as done """
+    """ Mark a habit as done 
+    
+    Args:
+        habit_id (int): The habit id
+
+    """
     session = Session()
     try:
         new_habit_tracking = HabitTracking(fk_habit=habit_id, checked_at=int(time.time()))
@@ -200,7 +268,15 @@ def mark_habit_as_done(habit_id):
         session.close()
 
 def get_most_long_streak_habit():
-    """ Get the habit with the longest streak """
+    """ Get the habit with the longest streak 
+    
+    Args:
+        user_id (int): The user id
+        
+    Returns:
+        Habit: The habit with the longest streak
+
+    """
     session = Session()
     try:
         max_streak = 0
@@ -223,7 +299,15 @@ def get_most_long_streak_habit():
         session.close()
 
 def get_worst_ever_streak_habit():
-    """ Get the habit with the worst ever streak """
+    """ Get the habit with the worst ever streak 
+    
+    Args:
+        user_id (int): The user id
+        
+    Returns:
+        Habit: The habit with the worst ever streak
+        
+    """
     session = Session()
     try:
         min_streak = float('inf')
@@ -246,7 +330,15 @@ def get_worst_ever_streak_habit():
         session.close()
 
 def get_last_month_worst_habit():
-    """ Get the worst habit from the last month """
+    """ Get the worst habit from the last month 
+    
+    Args:
+        user_id (int): The user id
+
+    Returns:
+        Habit: The habit with the worst streak from the last month
+
+    """
     session = Session()
     try:
         min_streak = float('inf')
@@ -269,7 +361,15 @@ def get_last_month_worst_habit():
         session.close()
 
 def calculate_streak(habit_trackings):
-    """ Calculate the longest streak and its date range for a habit. """
+    """ Calculate the longest streak and its date range for a habit. 
+    
+    Args:
+        habit_trackings (list): A list of habit tracking objects
+
+    Returns:
+        tuple: A tuple containing the longest streak, the start date and the end date
+
+    """
     if not habit_trackings:
         return 0, None, None
 
@@ -293,7 +393,15 @@ def calculate_streak(habit_trackings):
     return longest_streak, longest_start, longest_end
 
 def get_habits_ordered_by_longest_streak(user_id):
-    """ Get all habits by user_id ordered by the longest streak. """
+    """ Get all habits by user_id ordered by the longest streak. 
+    
+    Args:
+        user_id (int): The user id
+        
+    Returns:
+        PrettyTable: A table containing the habit information ordered by the longest streak
+        
+    """
     session = Session()
     try:
         habits = session.query(Habit).filter(Habit.fk_user == user_id).all()
