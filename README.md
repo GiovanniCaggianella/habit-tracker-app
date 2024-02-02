@@ -2,6 +2,8 @@
 
 The Habit Tracker App is a Python-based application designed to help users track and manage their habits over time. It features a simple interface for tracking habits, types, and entries, alongside analytics to review progress.
 
+![Habit Tracker Interface](images/home.png "Habit Tracker App Interface")
+
 ## Installation and Running
 
 ### 1.1. Installation
