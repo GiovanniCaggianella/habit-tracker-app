@@ -14,7 +14,10 @@ def sample_habits():
     return [
         Habit(id=1, title="Read", description="Read a book", created_at=1704067200, fk_user=1, fk_habit_type=1),
         Habit(id=2, title="Exercise", description="Go for a run", created_at=1704067200, fk_user=1, fk_habit_type=2),
-        Habit(id=3, title="Meditate", description="Practice meditation", created_at=1704067200, fk_user=1, fk_habit_type=3),
+        Habit(id=3, title="Meditate", description="Practice meditation", created_at=1704067200, fk_user=1, fk_habit_type=2),
+        Habit(id=4, title="Drink water", description="Drink 8 glasses of water", created_at=1704067200, fk_user=1, fk_habit_type=1),
+        Habit(id=5, title="Eat healthy", description="Eat 5 portions of fruit and vegetables", created_at=1704067200, fk_user=1, fk_habit_type=1),
+        Habit(id=6, title="Sleep well", description="Get 8 hours of sleep", created_at=1704067200, fk_user=1, fk_habit_type=1)
     ]
 
 @pytest.fixture
@@ -40,24 +43,33 @@ def sample_habit_trackings_habit_one():
         HabitTracking(id=18, fk_habit=1, checked_at=1705536000.0), # Jan 18, 2024
         HabitTracking(id=19, fk_habit=1, checked_at=1705622400.0), # Jan 19, 2024
         HabitTracking(id=20, fk_habit=1, checked_at=1705708800.0), # Jan 20, 2024
+        HabitTracking(id=21, fk_habit=1, checked_at=1705795200.0), # Jan 21, 2024
+        HabitTracking(id=22, fk_habit=1, checked_at=1705881600.0), # Jan 22, 2024
+        HabitTracking(id=23, fk_habit=1, checked_at=1705968000.0), # Jan 23, 2024
+        HabitTracking(id=24, fk_habit=1, checked_at=1706054400.0), # Jan 24, 2024
+        HabitTracking(id=25, fk_habit=1, checked_at=1706140800.0), # Jan 25, 2024
+        HabitTracking(id=26, fk_habit=1, checked_at=1706227200.0), # Jan 26, 2024
+        HabitTracking(id=27, fk_habit=1, checked_at=1706313600.0), # Jan 27, 2024
+        HabitTracking(id=28, fk_habit=1, checked_at=1706400000.0)  # Jan 28, 2024
     ]
 
 @pytest.fixture
-def sample_habit_trackings():
-    return [
-        HabitTracking(id=1, fk_habit=1, checked_at=1705104000.0),
+def sample_habit_trackings(fk_habit=None):
+
+    all_habit_trackings = [
+        HabitTracking(id=1, fk_habit=3, checked_at=1705104000.0),
         HabitTracking(id=2, fk_habit=1, checked_at=1705276800.0),
         HabitTracking(id=3, fk_habit=1, checked_at=1706572800.0),
         HabitTracking(id=4, fk_habit=1, checked_at=1706227200.0),
         HabitTracking(id=5, fk_habit=1, checked_at=1704499200.0),
-        HabitTracking(id=6, fk_habit=1, checked_at=1705622400.0),
-        HabitTracking(id=7, fk_habit=1, checked_at=1705190400.0),
-        HabitTracking(id=8, fk_habit=1, checked_at=1704758400.0),
+        HabitTracking(id=6, fk_habit=2, checked_at=1705622400.0),
+        HabitTracking(id=7, fk_habit=2, checked_at=1705190400.0),
+        HabitTracking(id=8, fk_habit=3, checked_at=1704758400.0),
         HabitTracking(id=9, fk_habit=1, checked_at=1704585600.0),
         HabitTracking(id=10, fk_habit=1, checked_at=1704672000.0),
         HabitTracking(id=11, fk_habit=1, checked_at=1706659200.0),
-        HabitTracking(id=12, fk_habit=1, checked_at=1705881600.0),
-        HabitTracking(id=13, fk_habit=1, checked_at=1705708800.0),
+        HabitTracking(id=12, fk_habit=3, checked_at=1705881600.0),
+        HabitTracking(id=13, fk_habit=3, checked_at=1705708800.0),
         HabitTracking(id=14, fk_habit=1, checked_at=1705449600.0),
         HabitTracking(id=15, fk_habit=3, checked_at=1705536000.0),
         HabitTracking(id=16, fk_habit=1, checked_at=1704240000.0),
@@ -71,11 +83,22 @@ def sample_habit_trackings():
         HabitTracking(id=24, fk_habit=3, checked_at=1705363200.0),
         HabitTracking(id=25, fk_habit=1, checked_at=1706313600.0),
         HabitTracking(id=26, fk_habit=2, checked_at=1704067200.0),
-        HabitTracking(id=27, fk_habit=1, checked_at=1704931200.0),
+        HabitTracking(id=27, fk_habit=2, checked_at=1704931200.0),
         HabitTracking(id=28, fk_habit=1, checked_at=1704153600.0),
-        HabitTracking(id=29, fk_habit=1, checked_at=1705968000.0),
+        HabitTracking(id=29, fk_habit=3, checked_at=1705968000.0),
         HabitTracking(id=30, fk_habit=1, checked_at=1706054400.0),
+        HabitTracking(id=31, fk_habit=2, checked_at=1706400000.0),
+        HabitTracking(id=32, fk_habit=1, checked_at=1705536000.0),
+        HabitTracking(id=33, fk_habit=2, checked_at=1705276800.0)
     ]
+
+    if fk_habit is None:
+        return all_habit_trackings
+    else:
+        filtered_habit_trackings = [ht for ht in all_habit_trackings if ht.fk_habit == fk_habit]
+
+    return filtered_habit_trackings
+
 
 def test_get_most_long_streak_habit(mock_session, sample_habits, sample_habit_trackings):
 
@@ -108,9 +131,9 @@ def test_calculate_streak(sample_habit_trackings_habit_one):
 
     longest_streak, longest_start, longest_end = calculate_streak(sample_habit_trackings_habit_one)
 
-    assert longest_streak == 10
+    assert longest_streak == 18
     assert longest_start == 1704931200.0
-    assert longest_end == 1705708800.0
+    assert longest_end == 1706400000.0
 
 def test_get_habits_ordered_by_longest_streak(mock_session, sample_habits, sample_habit_trackings):
     
@@ -125,7 +148,7 @@ def test_get_habits_ordered_by_longest_streak(mock_session, sample_habits, sampl
     assert result.field_names[2] == "Longest Streak"
     assert result.field_names[3] == "Streak Start Date"
     assert result.field_names[4] == "Streak End Date"
-    assert len(result._rows) == 3
+    assert len(result._rows) == 6
     assert result._rows[0][0] == 1
     assert result._rows[0][1] == "Read"
     assert result._rows[0][2] == 2
@@ -159,6 +182,6 @@ def test_get_habit_longest_streak_by_habit_id(mock_session, sample_habits, sampl
     assert len(result._rows) == 1
     assert result._rows[0][0] == 1
     assert result._rows[0][1] == "Read"
-    assert result._rows[0][2] == 10
+    assert result._rows[0][2] == 18
     assert result._rows[0][3] == "2024-01-11"
-    assert result._rows[0][4] == "2024-01-20"
+    assert result._rows[0][4] == "2024-01-28"
