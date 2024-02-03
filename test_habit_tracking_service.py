@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from habit_tracking_service import calculate_streak, get_habits_ordered_by_longest_streak, get_most_long_streak_habit, get_worst_ever_streak_habit, get_last_month_worst_habit
+from habit_tracking_service import calculate_streak, get_habit_longest_streak_by_habit_id, get_habits_ordered_by_longest_streak, get_most_long_streak_habit, get_worst_ever_streak_habit, get_last_month_worst_habit
 from models import Habit, HabitTracking
 
 @pytest.fixture
@@ -141,3 +141,24 @@ def test_get_habits_ordered_by_longest_streak(mock_session, sample_habits, sampl
     assert result._rows[2][2] == 2
     assert result._rows[2][3] == "2024-01-07"
     assert result._rows[2][4] == "2024-01-08"
+
+def test_get_habit_longest_streak_by_habit_id(mock_session, sample_habits, sample_habit_trackings_habit_one):
+    
+    habit_id = 1
+    mock_session.return_value.query.return_value.filter.return_value.first.return_value = sample_habits[0]
+    mock_session.return_value.query.return_value.filter.return_value.order_by.return_value.all.return_value = sample_habit_trackings_habit_one
+
+    result = get_habit_longest_streak_by_habit_id(habit_id)
+
+    assert len(result.field_names) == 5
+    assert result.field_names[0] == "Habit ID"
+    assert result.field_names[1] == "Title"
+    assert result.field_names[2] == "Longest Streak"
+    assert result.field_names[3] == "Streak Start Date"
+    assert result.field_names[4] == "Streak End Date"
+    assert len(result._rows) == 1
+    assert result._rows[0][0] == 1
+    assert result._rows[0][1] == "Read"
+    assert result._rows[0][2] == 10
+    assert result._rows[0][3] == "2024-01-11"
+    assert result._rows[0][4] == "2024-01-20"

@@ -428,3 +428,31 @@ def get_habits_ordered_by_longest_streak(user_id):
         print(f"An error occurred while get_habits_ordered_by_longest_streak: {e}")
     finally:
         session.close()
+
+def get_habit_longest_streak_by_habit_id(habit_id):
+    """ Get the longest streak for a habit by habit id 
+    
+    Args:
+        habit_id (int): The habit id
+        
+    Returns:
+        PrettyTable: A table containing the habit information "Habit ID", "Title", "Longest Streak", "Streak Start Date", "Streak End Date"
+    
+    """
+    session = Session()
+    try:
+        habit = session.query(Habit).filter(Habit.id == habit_id).first()
+        habit_trackings = session.query(HabitTracking).filter(HabitTracking.fk_habit == habit_id).order_by(HabitTracking.checked_at).all()
+        streak_length, start_date, end_date = calculate_streak(habit_trackings)
+
+        table = PrettyTable()
+        table.field_names = ["Habit ID", "Title", "Longest Streak", "Streak Start Date", "Streak End Date"]
+        start_date_str = datetime.datetime.fromtimestamp(start_date).strftime('%Y-%m-%d') if start_date else 'N/A'
+        end_date_str = datetime.datetime.fromtimestamp(end_date).strftime('%Y-%m-%d') if end_date else 'N/A'
+        table.add_row([habit.id, habit.title, streak_length, start_date_str, end_date_str])
+
+        return table
+    except Exception as e:
+        print(f"An error occurred while get_habit_longest_streak_by_habit_id: {e}")
+    finally:
+        session.close()

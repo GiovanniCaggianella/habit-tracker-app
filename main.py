@@ -1,6 +1,6 @@
 import time
 import questionary
-from habit_tracking_service import add_new_habit, get_all_habit_by_user_id_and_habit_type_id, get_all_habit_by_user_id_and_unmarked, get_habit_info, get_habits_ordered_by_longest_streak, get_last_month_worst_habit, get_most_long_streak_habit, get_worst_ever_streak_habit, mark_habit_as_done, print_all_habits_by_user_id_and_habit_type_id, print_habit_checked_dates, remove_habit, update_habit
+from habit_tracking_service import add_new_habit, get_all_habit_by_user_id_and_habit_type_id, get_all_habit_by_user_id_and_unmarked, get_habit_info, get_habit_longest_streak_by_habit_id, get_habits_ordered_by_longest_streak, get_last_month_worst_habit, get_most_long_streak_habit, get_worst_ever_streak_habit, mark_habit_as_done, print_all_habits_by_user_id_and_habit_type_id, print_habit_checked_dates, remove_habit, update_habit
 
 from initdb import init_db
 
@@ -26,6 +26,7 @@ def main():
                 "Worst ever streak habit",
                 "Last month's worst habit",
                 "List of habits with the longest streak",
+                "Get longest streak by habit",
                 "Quit",
             ],
         ).ask()
@@ -120,6 +121,17 @@ def main():
         elif action == "List of habits with the longest streak":
             list_of_habits_longest_streak = get_habits_ordered_by_longest_streak(user_logged_in)
             print(list_of_habits_longest_streak)
+
+        elif action == "Get longest streak by habit":
+            habit_data = get_all_habit_by_user_id_and_habit_type_id(user_logged_in, None)
+            if habit_data:
+                choices = [f"{habit_id}. {title}" for habit_id, title in habit_data]
+                selected = questionary.select("Which habit do you want to analyze?", choices=choices).ask()
+                habit_id = int(selected.split('.')[0])
+                habit_longest_streak = get_habit_longest_streak_by_habit_id(habit_id)
+                print(habit_longest_streak)
+            else:
+                print("No habits found.")
 
         elif action == "Quit":
             break
